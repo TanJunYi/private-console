@@ -918,6 +918,11 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
     });
 };
 
+exports.collectCodeWorkUnit = function (callback) {
+    callback(errorCode.SUCCESS);
+    // TODO: collect remote code and information
+};
+
 // Ultilities
 function checksum(str, algorithm, encoding) {
     return crypto

@@ -34,3 +34,6 @@ app.get('/irext/int/list_remote_indexes', intService.listRemoteIndexes);
 app.get('/irext/int/search_remote_indexes', intService.searchRemoteIndexes);
 
 app.get('/irext/int/download_remote_index', intService.downloadRemoteIndex);
+
+// code collector specified services
+app.post('/irext/int/collect_code', intService.collectCode);
