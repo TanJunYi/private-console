@@ -19,6 +19,8 @@ var IRProtocol = require('../model/ir_protocol_dao.js');
 var City = require('../model/city_dao.js');
 var RemoteIndex = require('../model/remote_index_dao.js');
 var StbOperator = require('../model/stb_operator_dao.js');
+var RemoteCollected = require('../model/remote_collected_dao.js');
+var KeyCollected = require('../model/key_collected_dao.js');
 
 var RequestSender = require('../mini_poem/http/request.js');
 var Map = require('../mini_poem/mem/map.js');
