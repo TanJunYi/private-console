@@ -27,10 +27,13 @@ var Map = require('../mini_poem/mem/map.js');
 
 var Enums = require('../constants/enums.js');
 var ErrorCode = require('../constants/error_code.js');
+var Categories = require('../constants/remote_categories');
+
 var logger = require('../mini_poem/logging/logger4js').helper;
 
 var enums = new Enums();
 var errorCode = new ErrorCode();
+var categories = new Categories();
 
 var async = require('async');
 
@@ -759,7 +762,8 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
 
 exports.collectCodeWorkUnit = function (remoteText, remoteKey, remoteCode, callback) {
     if (remoteText && remoteKey && remoteCode) {
-        var category
+        var cbSplit = findCBSplit(remoteText);
+        callback(errorCode.SUCCESS);
     } else {
         callback(errorCode.FAILED);
     }
@@ -771,4 +775,17 @@ function checksum(str, algorithm, encoding) {
         .createHash(algorithm || 'md5')
         .update(str, 'utf8')
         .digest(encoding || 'hex')
+}
+
+function findCBSplit(remoteText) {
+    for (var i = 0; i < categories.categoryMaps.length; i++) {
+        var splitIndex = remoteText.indexOf(categories.categoryMaps[i].col_name);
+        if (-1 != splitIndex) {
+            var cb = new Array(2);
+            cb[0] = remoteText.substring(0, splitIndex);
+            cb[1] = remoteText.substring(splitIndex);
+            return cb;
+        }
+    }
+    return null;
 }

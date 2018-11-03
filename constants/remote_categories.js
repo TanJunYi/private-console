@@ -4,7 +4,7 @@
  */
 
 function RemoteCategories() {
-    this.categories = [
+    this.categoryMaps = [
         {
             id: 1,
             col_name: "空调",
