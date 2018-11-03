@@ -39,9 +39,6 @@ var adminAuth = new AdminAuth(REDIS_HOST, REDIS_PORT, null, REDIS_PASSWORD);
 // relative XML file path
 var PROTOCOL_PATH = "protocol";
 
-var publishBrandService = "/irext/int/publish_brands";
-var uploadBinaryService = "/irext/int/upload_binary";
-var publishRemoteIndexService = "/int/remote/publish_remote_indexes";
 var deleteRemoteIndexService = "/irext/int/delete_remote_index";
 
 exports.listCategoriesWorkUnit = function (from, count, callback) {
@@ -760,9 +757,12 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
     });
 };
 
-exports.collectCodeWorkUnit = function (callback) {
-    callback(errorCode.SUCCESS);
-    // TODO: collect remote code and information
+exports.collectCodeWorkUnit = function (remoteText, remoteKey, remoteCode, callback) {
+    if (remoteText && remoteKey && remoteCode) {
+        var category
+    } else {
+        callback(errorCode.FAILED);
+    }
 };
 
 // Ultilities

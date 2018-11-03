@@ -13,7 +13,6 @@ var Enums = require('../constants/enums.js');
 var ErrorCode = require('../constants/error_code.js');
 var logger = require('../mini_poem/logging/logger4js').helper;
 
-var enums = new Enums();
 var errorCode = new ErrorCode();
 
 var adminAuth = new AdminAuth(REDIS_HOST, REDIS_PORT, null, REDIS_PASSWORD);
