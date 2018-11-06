@@ -760,15 +760,6 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
     });
 };
 
-exports.collectCodeWorkUnit = function (remoteText, remoteKey, remoteCode, callback) {
-    if (remoteText && remoteKey && remoteCode) {
-        var cbSplit = findCBSplit(remoteText);
-        callback(errorCode.SUCCESS);
-    } else {
-        callback(errorCode.FAILED);
-    }
-};
-
 // Ultilities
 function checksum(str, algorithm, encoding) {
     return crypto

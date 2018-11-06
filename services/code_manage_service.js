@@ -527,21 +527,3 @@ exports.createProtocol = function (req, res) {
         }
     });
 };
-
-/*
- * function :   Collect code
- * parameter :  code tri-element
- * return :     None
- */
-exports.collectCode = function (req, res) {
-    var remoteText = req.body.remote_text;
-    var remoteKey = req.body.remote_key;
-    var remoteCode = req.body.remote_code;
-
-    var serviceResponse = new ServiceResponse();
-    internalLogic.collectCodeWorkUnit(remoteText, remoteKey, remoteCode, function (collectCodeErr) {
-        serviceResponse.status = collectCodeErr;
-        res.send(serviceResponse);
-        res.end();
-    });
-};

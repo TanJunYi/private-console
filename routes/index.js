@@ -9,3 +9,4 @@ require('./navigation_routes.js');
 require('./certificate_routes.js');
 require('./code_manage_routes.js');
 require('./stat_routes.js');
+require('./code_collect_routes.js');
