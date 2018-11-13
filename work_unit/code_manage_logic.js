@@ -44,7 +44,7 @@ var PROTOCOL_PATH = "protocol";
 
 var deleteRemoteIndexService = "/irext/int/delete_remote_index";
 
-exports.listCategoriesWorkUnit = function (from, count, callback) {
+exports.listCategoriesWorkUnit = function (from, count, callback) {n
     var conditions = {
         status: enums.ITEM_VALID
     };

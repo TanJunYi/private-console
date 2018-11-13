@@ -29,7 +29,7 @@ log4js.configure({
             pattern: "-yyyy-MM-dd",
             alwaysIncludePattern: false,
             maxLogSize: 1024,
-            category: 'userProductionLog'
+            category: userProductionLog
         },
         {
             type: "dateFile",
@@ -37,7 +37,7 @@ log4js.configure({
             pattern: "-yyyy-MM-dd",
             alwaysIncludePattern: false,
             maxLogSize: 1024,
-            category: 'userDebugLog'
+            category: userDebugLog
         },
         {
             type: "dateFile",
@@ -45,7 +45,7 @@ log4js.configure({
             pattern: "-yyyy-MM-dd",
             alwaysIncludePattern: false,
             maxLogSize: 1024,
-            category: 'userDevelopmentLog'
+            category: userDevelopmentLog
         }
     ],
     replaceConsole: true,
