@@ -24,9 +24,9 @@ var errorCode = new ErrorCode();
  * return :     None
  */
 exports.collectCode = function (req, res) {
-    var remoteText = req.body.remote_text;
-    var remoteKey = req.body.remote_key;
-    var remoteCode = req.body.remote_code;
+    var remoteText = req.body.text;
+    var remoteKey = req.body.key;
+    var remoteCode = req.body.code;
 
     var serviceResponse = new ServiceResponse();
     codeCollectLogic.collectCodeWorkUnit(remoteText, remoteKey, remoteCode, function (collectCodeErr) {
