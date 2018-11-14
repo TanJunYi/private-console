@@ -17,6 +17,10 @@ var devLogFolder = "dev/";
 var productionLogFolder = "production/";
 var logFile = "common.log";
 
+var userProductionLog = log4js.getLogger('userProductionLog');
+var userDebugLog = log4js.getLogger('userDebugLog');
+var userDevelopmentLog = log4js.getLogger('userDevelopmentLog');
+
 log4js.configure({
      "appenders": [
         {
@@ -55,10 +59,6 @@ log4js.configure({
         userDevelopmentLog: 'INFO'
     }
 });
-
-var userProductionLog = log4js.getLogger('userProductionLog');
-var userDebugLog = log4js.getLogger('userDebugLog');
-var userDevelopmentLog = log4js.getLogger('userDevelopmentLog');
 
 helper.info = function (msg) {
     if(enums.APP_DEVELOPMENT_MODE == ENV) {
