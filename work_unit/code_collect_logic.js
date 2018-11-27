@@ -32,9 +32,24 @@ var async = require('async');
 
 exports.collectCodeWorkUnit = function (remoteText, remoteKey, remoteCode, callback) {
     if (remoteText && remoteKey && remoteCode) {
+        logger.info("collect code work unit called : " + remoteText + ", " + remoteKey + ", " + remoteCode);
         var cbSplit = findCBSplit(remoteText);
         callback(errorCode.SUCCESS);
     } else {
         callback(errorCode.FAILED);
     }
 };
+
+// utility functions
+function findCBSplit(remoteText) {
+    for (var i = 0; i < categories.categoryMaps.length; i++) {
+        var splitIndex = remoteText.indexOf(categories.categoryMaps[i].col_name);
+        if (-1 != splitIndex) {
+            var cb = new Array(2);
+            cb[0] = remoteText.substring(0, splitIndex);
+            cb[1] = remoteText.substring(splitIndex);
+            return cb;
+        }
+    }
+    return null;
+}

@@ -44,7 +44,7 @@ var PROTOCOL_PATH = "protocol";
 
 var deleteRemoteIndexService = "/irext/int/delete_remote_index";
 
-exports.listCategoriesWorkUnit = function (from, count, callback) {n
+exports.listCategoriesWorkUnit = function (from, count, callback) {
     var conditions = {
         status: enums.ITEM_VALID
     };
@@ -766,17 +766,4 @@ function checksum(str, algorithm, encoding) {
         .createHash(algorithm || 'md5')
         .update(str, 'utf8')
         .digest(encoding || 'hex')
-}
-
-function findCBSplit(remoteText) {
-    for (var i = 0; i < categories.categoryMaps.length; i++) {
-        var splitIndex = remoteText.indexOf(categories.categoryMaps[i].col_name);
-        if (-1 != splitIndex) {
-            var cb = new Array(2);
-            cb[0] = remoteText.substring(0, splitIndex);
-            cb[1] = remoteText.substring(splitIndex);
-            return cb;
-        }
-    }
-    return null;
 }
