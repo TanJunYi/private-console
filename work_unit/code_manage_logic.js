@@ -19,8 +19,6 @@ var IRProtocol = require('../model/ir_protocol_dao.js');
 var City = require('../model/city_dao.js');
 var RemoteIndex = require('../model/remote_index_dao.js');
 var StbOperator = require('../model/stb_operator_dao.js');
-var RemoteCollected = require('../model/remote_collected_dao.js');
-var KeyCollected = require('../model/key_collected_dao.js');
 
 var RequestSender = require('../mini_poem/http/request.js');
 var Map = require('../mini_poem/mem/map.js');
@@ -33,9 +31,6 @@ var logger = require('../mini_poem/logging/logger4js').helper;
 
 var enums = new Enums();
 var errorCode = new ErrorCode();
-var categories = new Categories();
-
-var async = require('async');
 
 var adminAuth = new AdminAuth(REDIS_HOST, REDIS_PORT, null, REDIS_PASSWORD);
 

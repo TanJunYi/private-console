@@ -6,10 +6,8 @@
 require('../mini_poem/configuration/constants');
 
 var AdminAuth = require('../authentication/admin_auth.js');
-var MD5 = require('../mini_poem/crypto/md5.js');
 var RequestSender = require('../mini_poem/http/request.js');
 
-var Enums = require('../constants/enums.js');
 var ErrorCode = require('../constants/error_code.js');
 var logger = require('../mini_poem/logging/logger4js').helper;
 

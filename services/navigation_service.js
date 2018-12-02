@@ -4,9 +4,6 @@
  */
 
 // system inclusion
-var constants = require('../mini_poem/configuration/constants');
-var formidable = require('formidable');
-
 
 /*
  * function :   Navigation to certain URL

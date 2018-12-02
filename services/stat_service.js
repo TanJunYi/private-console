@@ -4,11 +4,6 @@
  */
 
 // system inclusion
-var constants = require('../mini_poem/configuration/constants');
-var logger = require('../mini_poem/logging/logger4js').helper;
-
-var formidable = require('formidable');
-var fs = require('fs');
 
 // local inclusion
 var StatResponse = require('../response/stat_response.js');
@@ -17,9 +12,6 @@ var statLogic = require('../work_unit/stat_logic.js');
 
 var Enums = require('../constants/enums');
 var ErrorCode = require('../constants/error_code');
-
-var enums = new Enums();
-var errorCode = new ErrorCode();
 
 /*
  * function :   Count supported categories, brands and remote indexes

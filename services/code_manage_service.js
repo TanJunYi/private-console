@@ -4,7 +4,6 @@
  */
 
 // system inclusion
-var constants = require('../mini_poem/configuration/constants');
 var logger = require('../mini_poem/logging/logger4js').helper;
 
 var formidable = require('formidable');
