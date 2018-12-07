@@ -68,6 +68,7 @@ helper.info = function (msg) {
     } else if (enums.APP_PRODUCTION_MODE === ENV) {
         userProductionLog.info(date + ": " + msg);
     } else {
+        console.log(date + ": " + msg);
         userDebugLog.info(date + ": " + msg);
     }
 };
