@@ -14,12 +14,12 @@ cd web/public_js/
 bower install
 ```
 
-MySQL 5.5 is required
+MySQL (at least version 5.5) is required
 
 Redis is required
 
 
 ### Usage
-Run ```./script_run.sh production``` to launch the server
+Run ```./script_run.sh production``` to kick start the server
 
-Open http://yourDomain:8300/ in your broswer
+Visit http://yourDomain:8300/ with your browser
