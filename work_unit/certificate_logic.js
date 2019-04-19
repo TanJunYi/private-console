@@ -70,9 +70,7 @@ exports.adminLoginWorkUnit = function (userName, password, callback) {
 exports.verifyTokenWorkUnit = function (id, token, callback) {
     var key = "admin_" + id;
     adminAuth.validateAuthInfo(key, token, function(validateAdminAuthErr, result) {
-        if (validateAdminAuthErr.code == errorCode.SUCCESS.code) {
-            logger.info("token validation successfully");
-        } else {
+        if (validateAdminAuthErr.code != errorCode.SUCCESS.code) {
             logger.info("token validation failed");
         }
         callback(validateAdminAuthErr);
