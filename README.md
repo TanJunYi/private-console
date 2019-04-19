@@ -7,7 +7,7 @@ Node.js V4.X.X is required, you could download it from [Node.js V4.8.3](https://
 Run following commands in your Linux bash or Windows cmd
 
 ```shell script
-npm-install
+npm install
 npm install -g express
 npm install -g bower
 cd web/public_js/
