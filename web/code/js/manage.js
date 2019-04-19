@@ -545,12 +545,12 @@ function publishRemoteIndexes() {
                 loadRemoteList();
             } else {
                 $('#publish_dialog').modal('hide');
-                popUpHintDialog('发布编码表操作失败');
+                popUpHintDialog('发布编码操作失败');
             }
         },
         error: function () {
             $('#publish_dialog').modal('hide');
-            popUpHintDialog('发布编码表操作失败');
+            popUpHintDialog('发布编码操作失败');
         }
     });
 }

@@ -365,11 +365,11 @@ exports.createRemoteIndexWorkUnit = function(remoteIndex, filePath, contentType,
             } else {
                 // P-R FORMAT encode
                 //////////////////////////////////////
-                // step 1.5, download specified protocol binary from OSS
+                // step 1.5, download specified protocol binary from local file storage
                 protocolPath = fileDir + "/" + PROTOCOL_PATH + "/";
                 protocolFileName = remoteIndex.protocol_name + ".bin";
                 localProtocolFileName = protocolPath + remoteIndex.protocol_name + ".bin";
-                logger.info("protocol binary fetched from OSS, continue processing with remote file");
+                logger.info("protocol binary fetched from file storage, continue processing with remote file");
                 remoteXMLFilePath = fileDir + "/" + remoteIndex.remote_name + ".xml";
                 logger.info("remote XML file path = " + remoteXMLFilePath);
                 //////////////////////////////////////
@@ -701,7 +701,7 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
                 pythonCaller.call(pythonRuntimeDir, pythonFile, userArgs, function(protocolGenErr, genResult) {
                     if(errorCode.SUCCESS.code == protocolGenErr) {
                         //////////////////////////////////////
-                        // step 3.5, upload protocol binary file to OSS
+                        // step 3.5, upload protocol binary file to local file storage
                         localProtocolFile = destFile;
                         fs.readFile(localProtocolFile, function(readFileErr, fileData) {
                             if (readFileErr) {
