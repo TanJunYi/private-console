@@ -226,7 +226,7 @@ exports.createRemoteIndexWorkUnit = function(remoteIndex, filePath, contentType,
             // begin creating remote index
             switch(parseInt(categoryID)) {
                 case enums.CATEGORY_AC:
-                    pythonFile = "irda_ac_encode.py";
+                    pythonFile = "ir_status_encode.py";
                     break;
                 case enums.CATEGORY_TV:
                 case enums.CATEGORY_STB:
@@ -241,7 +241,7 @@ exports.createRemoteIndexWorkUnit = function(remoteIndex, filePath, contentType,
                 case enums.CATEGORY_CLEANING_ROBOT:
                 case enums.CATEGORY_AIR_CLEANER:
                 case enums.CATEGORY_DYSON:
-                    pythonFile = "irda_tv_encode.py";
+                    pythonFile = "ir_command_encode.py";
                     break;
                 default:
                     logger.error("no remote category found!!");
@@ -393,12 +393,12 @@ exports.createRemoteIndexWorkUnit = function(remoteIndex, filePath, contentType,
                             // step 4, try executing merge script
                             logger.info("remote " + remoteIndex.remote_name + " has successfully been generated." +
                                 " continue merging with protocol");
-                            pythonFile = "irda_tv_merge.py";
+                            pythonFile = "ir_command_merge.py";
                             outputPath = fileDir;
                             remoteBinFilePath = fileDir + "/" + remoteDir + remoteIndex.protocol_name + "#" +
                                 remoteIndex.remote_name + ".bin";
                             userArgs.length = 0;
-                            // python irda_tv_merge.py [protocol_dir_abs_path]
+                            // python ir_command_merge.py [protocol_dir_abs_path]
                             // [remote_bin_file_abs_path] [output_$category_dir_abs_path]
                             logger.info("protocol path = " + protocolPath + ", remote bin path = " + remoteBinFilePath +
                                 ", output = " + outputPath);
@@ -672,7 +672,7 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
     var localProtocolFile = "";
 
     var pythonRuntimeDir = fileDir,
-        pythonFile = "irda_tv_protocol.py",
+        pythonFile = "ir_command_protocol.py",
         userArgs = [];
 
     /////////////////////////////////////
@@ -682,9 +682,9 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
         if (errorCode.SUCCESS.code == getAdminAuthErr.code && null != result) {
             contributor = result;
             if (enums.PROTOCOL_TYPE_G2_QUATERNARY == protocolType) {
-                pythonFile = "irda_tv_protocol.py";
+                pythonFile = "ir_command_protocol.py";
             } else if (enums.PROTOCOL_TYPE_G2_HEXDECIMAL == protocolType) {
-                pythonFile = "irda_tv_protocol_hex.py";
+                pythonFile = "ir_command_protocol_hex.py";
             }
 
             logger.info("prepare to parse protocol");
@@ -722,7 +722,7 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
                                     name: protocolName
                                 };
 
-                                logger.info("irda_tv_protocol.py called successfully, create protocol in DB");
+                                logger.info("ir_command_protocol.py called successfully, create protocol in DB");
                                 IRProtocol.findIRProtocolByConditions(conditions,
                                     function(findIRProtocolErr, IRProtocols) {
                                         if(errorCode.SUCCESS.code == findIRProtocolErr.code &&
@@ -741,7 +741,7 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
                             }
                         });
                     } else {
-                        logger.error("irda_tv_protocol.py called failed : " + protocolGenErr);
+                        logger.error("ir_command_protocol.py called failed : " + protocolGenErr);
                         callback(errorCode.FAILED);
                     }
                 });
