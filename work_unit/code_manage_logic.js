@@ -29,6 +29,8 @@ var Categories = require('../constants/remote_categories');
 
 var logger = require('../mini_poem/logging/logger4js').helper;
 
+var async = require('async');
+
 var enums = new Enums();
 var errorCode = new ErrorCode();
 
@@ -37,7 +39,8 @@ var adminAuth = new AdminAuth(REDIS_HOST, REDIS_PORT, null, REDIS_PASSWORD);
 // relative XML file path
 var PROTOCOL_PATH = "protocol";
 
-var deleteRemoteIndexService = "/irext/int/delete_remote_index";
+var publishBrandsService = "/irext-server/contribution/contribute_brands";
+var publishRemoteIndexesService = "/irext-server/contribution/contribute_remote_indexes";
 
 exports.listCategoriesWorkUnit = function (from, count, callback) {
     var conditions = {
@@ -549,26 +552,7 @@ exports.deleteRemoteIndexWorkUnit = function (remoteIndex, adminID, callback) {
             key = "admin_" + adminID;
             adminAuth.getAuthInfo(key, function(getAdminAuthErr, result) {
                 if (errorCode.SUCCESS.code == getAdminAuthErr.code && null != result) {
-                    remoteIndex.admin_id = adminID;
-                    remoteIndex.token = result;
-                    var queryParams = new Map();
-                    var requestSender =
-                        new RequestSender(EXTERNAL_SERVER_ADDRESS,
-                            EXTERNAL_SERVER_PORT,
-                            deleteRemoteIndexService,
-                            queryParams);
-
-                    requestSender.sendPostRequest(remoteIndex,
-                        function(deleteRemoteIndexesRequestErr, deleteRemoteIndexesResponse) {
-                            // perform delete action accordingly despite the result of remote deletion
-                            logger.info(deleteRemoteIndexesRequestErr);
-                            /*
-                            RemoteIndex.deleteRemoteIndex(remoteIndex.id, function(deleteRemoteIndexErr) {
-                                callback(deleteRemoteIndexErr);
-                            });
-                            */
-                            callback(errorCode.SUCCESS);
-                        });
+                    callback(errorCode.SUCCESS);
                 } else {
                     callback(errorCode.FAILED);
                 }
@@ -651,8 +635,49 @@ exports.createBrandWorkUnit = function (brand, adminID, callback) {
     });
 };
 
-exports.publishBrandsWorkUnit = function (callback) {
-    callback(errorCode.SUCCESS);
+exports.publishBrandsWorkUnit = function (adminID, callback) {
+    var conditions = null;
+    var key = "admin_name_" + adminID;
+    adminAuth.getAuthInfo(key, function(getAdminAuthErr, result) {
+        if (getAdminAuthErr.code == errorCode.SUCCESS.code &&
+            null != result) {
+            conditions = {
+                status: enums.ITEM_VERIFY
+            };
+            Brand.findBrandByConditions(conditions, function (findBrandErr, brands) {
+                if (errorCode.SUCCESS.code === findBrandErr.code && null !== brands && brands.length > 0) {
+                    logger.info("unpublished brand list has been found");
+                    async.eachSeries(brands, function (brand, innerCallback) {
+                        brand.status = enums.ITEM_VALID;
+                        Brand.updateBrandByID(brand.id, brand, function (updateBrandErr, updatedBrand) {
+                            innerCallback();
+                        });
+                    }, function (err) {
+                        // send HTTP request to IRext main server
+                        var queryParams = new Map();
+                        var requestSender =
+                            new RequestSender(EXTERNAL_SERVER_ADDRESS,
+                                EXTERNAL_SERVER_PORT,
+                                publishBrandsService,
+                                queryParams);
+                        var contributeBrandsRequest = {
+                            brandList : brands
+                        };
+                        requestSender.sendPostRequest(contributeBrandsRequest,
+                            function(contributeBrandsRequestErr, contributeBrandsResponse) {
+                                logger.info(contributeBrandsRequestErr);
+                                callback(errorCode.SUCCESS);
+                            });
+                        callback(errorCode.SUCCESS);
+                    });
+                } else {
+                    callback(errorCode.SUCCESS);
+                }
+            });
+        } else {
+            callback(errorCode.FAILED);
+        }
+    });
 };
 
 exports.createProtocolWorkUnit = function(protocol, filePath, contentType, adminID, callback) {
