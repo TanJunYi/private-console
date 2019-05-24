@@ -39,8 +39,9 @@ var adminAuth = new AdminAuth(REDIS_HOST, REDIS_PORT, null, REDIS_PASSWORD);
 // relative XML file path
 var PROTOCOL_PATH = "protocol";
 
-var publishBrandsService = "/irext-server/contribution/contribute_brands";
-var publishRemoteIndexesService = "/irext-server/contribution/contribute_remote_indexes";
+var contributeProtocolService = "/irext-server/contribute/contribute_protocol";
+var contributeBrandsService = "/irext-server/contribution/contribute_brands";
+var contributeRemoteIndexesService = "/irext-server/contribution/contribute_remote_indexes";
 
 exports.listCategoriesWorkUnit = function (from, count, callback) {
     var conditions = {
@@ -658,8 +659,11 @@ exports.publishBrandsWorkUnit = function (adminID, callback) {
                         var requestSender =
                             new RequestSender(EXTERNAL_SERVER_ADDRESS,
                                 EXTERNAL_SERVER_PORT,
-                                publishBrandsService,
+                                contributeBrandsService,
                                 queryParams);
+                        for (var i = 0; i < brands.length; i++) {
+                            brands[i].status = enums.ITEM_VERIFY;
+                        }
                         var contributeBrandsRequest = {
                             brandList : brands
                         };
@@ -762,6 +766,22 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
                                                     callback(createIRProtocolErr);
                                                 });
                                         }
+                                    });
+                                // contribute protocol to IRext main server
+                                var queryParams = new Map();
+                                var requestSender =
+                                    new RequestSender(EXTERNAL_SERVER_ADDRESS,
+                                        EXTERNAL_SERVER_PORT,
+                                        contributeProtocolService,
+                                        queryParams);
+                                newProtocol.status = enums.ITEM_VERIFY;
+                                var contributeProtocolRequest = {
+                                    protocol : newProtocol
+                                };
+                                requestSender.sendPostRequest(contributeProtocolRequest,
+                                    function(contributeProtocolRequestErr, contributeProtocolResponse) {
+                                        logger.info(contributeProtocolRequestErr);
+                                        callback(errorCode.SUCCESS);
                                     });
                             }
                         });
