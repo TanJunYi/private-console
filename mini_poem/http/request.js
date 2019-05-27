@@ -33,30 +33,30 @@ var Request = function(_host, _port, _service, _queryParams) {
 
 Request.prototype.urlizeQueryParams = function() {
     var i = 0;
-    var urlParams = "";
+    var urlParams = '';
     var paramElement = null;
     if(undefined == this.queryParams || null == this.queryParams) {
-        return  "";
+        return  '';
     }
     if(this.queryParams instanceof Map) {
         for(i = 0; i < this.queryParams.size(); i++) {
             paramElement = this.queryParams.element(i);
             if(0 == i) {
-                urlParams += "?";
+                urlParams += '?';
             } else {
-                urlParams += "&";
+                urlParams += '&';
             }
-            urlParams += paramElement.key + "=" + paramElement.value;
+            urlParams += paramElement.key + '=' + paramElement.value;
         }
         return urlParams;
     }
-    return "";
+    return '';
 };
 
 Request.prototype.sendGetRequest = function(options, callback) {
-    var data = "";
-    var httpTag = options.https ? "https://" : "http://";
-    var url = httpTag + this.host + ":" + this.port + this.service +
+    var data = '';
+    var httpTag = options.https ? 'https://' : 'http://';
+    var url = httpTag + this.host + ':' + this.port + this.service +
         this.urlizeQueryParams();
 
     if(options.https) {
@@ -86,7 +86,7 @@ Request.prototype.sendGetRequest = function(options, callback) {
                 }
             });
             res.on('error', function(e) {
-                console.error("error occurred when handling response : " + e);
+                console.error('error occurred when handling response : ' + e);
                 callback(errorCode.FAILED, null);
             });
         });
@@ -125,14 +125,31 @@ Request.prototype.sendPostRequest = function(bodyData, callback) {
         req.write(requestData);
         req.end();
     } catch(e) {
-        console.error("exception occurred in http request : " + e);
+        console.error('exception occurred in http request : ' + e);
     }
+};
+
+Request.prototype.postMultipartForm = function(formData, callback) {
+    var url = this.service +
+        this.urlizeQueryParams();
+    var req = request.post({url: url, formData: formData}, function optionalCallback(err, res, body) {
+        if (err) {
+            console.error('exception occured in http request : ' + e);
+            callback(errorCode.FAILED, null);
+        } else {
+            if ('200' == res.statusCode) {
+                callback(errorCode.SUCCESS, body);
+            } else {
+                callback(errorCode.FAILED, null);
+            }
+        }
+    });
 };
 
 // post simple file to HTTP server
 Request.prototype.postSimpleFile = function(fileName, fileContent, contentType, options, callback) {
-    var httpTag = options.https ? "https://" : "http://";
-    var url = httpTag + this.host + ":" + this.port + this.service +
+    var httpTag = options.https ? 'https://' : 'http://';
+    var url = httpTag + this.host + ':' + this.port + this.service +
         this.urlizeQueryParams();
 
     var req = request.post(url, function (err, resp, body) {

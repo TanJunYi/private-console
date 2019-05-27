@@ -778,7 +778,12 @@ exports.createProtocolWorkUnit = function(protocol, filePath, contentType, admin
                                 var contributeProtocolRequest = {
                                     protocol : newProtocol
                                 };
-                                requestSender.sendPostRequest(contributeProtocolRequest,
+                                var formData = {
+                                    // Pass a simple key-value pair
+                                    protocol: JSON.stringify(contributeProtocolRequest),
+                                    protocolFile: fs.createReadStream(localProtocolFile),
+                                };
+                                requestSender.postMultipartForm(formData,
                                     function(contributeProtocolRequestErr, contributeProtocolResponse) {
                                         logger.info(contributeProtocolRequestErr);
                                         callback(errorCode.SUCCESS);
